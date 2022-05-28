@@ -1,13 +1,14 @@
-# dockerfile to build image for JBoss EAP 6.4
+# dockerfile to build image for JBoss EAP 7.4
 
 # start from rhel 7.2
-FROM registry.redhat.io/rhel7/rhel-atomic
+#FROM registry.redhat.io/rhel7/rhel-atomic
+FROM registry.access.redhat.com/ubi7/ubi:7.9-712
 
 # file author / maintainer
 MAINTAINER "Soumya Thakur" "soumyathakur85@gmail.com"
 
 # update OS
-RUN yum -y update && \
+RUN yum  -y update && \
 yum -y install sudo openssh-clients telnet unzip java-1.8.0-openjdk-devel && \
 yum clean all
 
@@ -40,7 +41,7 @@ RUN echo "JAVA_OPTS=\"\$JAVA_OPTS -Djboss.bind.address=0.0.0.0 -Djboss.bind.addr
 RUN chown -R jboss:jboss /opt/rh
 
 # JBoss ports
-EXPOSE 8080 9990 9999
+EXPOSE 8080 9990 9999 17001
 
 # start JBoss
 ENTRYPOINT $JBOSS_HOME/bin/standalone.sh -c standalone-full-ha.xml
